@@ -1,0 +1,76 @@
+# ===================================================================
+#  KAMPANYA KURALLARI  (Content Rewards / Whop)
+#  Her kural kampanya sayfasından birebir alındı (19 Kasım 2026).
+#  Bot, bir klip bu kurallardan birine uymazsa o klibi HİÇ üretmez.
+# ===================================================================
+
+defaults:
+  language: en                 # altyazı ve yazılar İngilizce
+  whisper_model: small.en
+  min_clip_views: 15           # Twitch'te izleyicilerin kestiği klip en az bu kadar izlenmiş olsun
+  max_clips_per_run: 3         # her çalışmada kampanya başına en fazla klip
+  clip_lead_seconds: 1         # an başlamadan 1 sn önce başla (ilk 1-2 sn'de hook)
+  clip_tail_seconds: 4
+  min_seconds: 15
+  max_seconds: 58              # Shorts sınırı
+  game: "Grand Theft Auto VI"
+
+campaigns:
+
+  # ---------------------------------------------------------------
+  - id: yourrage
+    active: true
+    name: "YourRAGE"
+    twitch: yourragegaming
+    submit_url: "https://contentrewards.com/c/campaigns/be9b123e-ea47-4305-b6c5-af81f503b247"
+    rules_url: "https://reachclipping.com/yourRAGE"
+    payout: "Havuz 5.000$ - tüm kliplerin toplamı 500.000 izlenmeyi geçmeli"
+    start_date: "2026-11-19"   # GTA 6 maratonu
+    end_date: null             # maraton bitince (Content Rewards'ta 'ended' görünür)
+    must_mention_name: "Rage"  # açıklama/yazıda Rage'in adı geçmeli
+    hashtags: ["#yourrage", "#GTA6"]
+    caption_text: ""
+    logo_overlay: null         # KURAL: hiçbir logo olmayacak
+    allow_logos: false
+    forbid_links: false
+    submit_within_minutes: 30
+    platforms: ["YouTube Shorts", "TikTok", "Instagram Reels"]
+
+  # ---------------------------------------------------------------
+  - id: kreekcraft
+    active: true
+    name: "KreekCraft"
+    twitch: kreekcraft
+    submit_url: "https://contentrewards.com/c/campaigns/2eaa14fb-6927-4136-897e-b096e0d907d6"
+    rules_url: "https://app.notion.com/p/KreekCraft-GTA-6-Clipping-Full-Rules-Brief-41c8e335832380cc8667c9359e8c61b7"
+    payout: "1.000 izlenme = 1$, klip başı en az 3$ en fazla 300$"
+    start_date: null
+    end_date: null
+    must_mention_name: "KreekCraft"
+    hashtags: ["#GTA6", "#KreekCraft", "#GrandTheftAutoVI"]
+    caption_text: "Watch KreekCraft on YouTube and Twitch!"
+    # KURAL: resmi logo baştan sona görünür olacak
+    logo_overlay: "https://crusercontent.com/organizations/43893b4f-434d-549b-9037-4f1c62984ff2/campaigns/references/assets/a6688393-4374-492e-8ec3-059554a1870f.webp"
+    allow_logos: true
+    forbid_links: true         # KURAL: açıklamada link/URL yok
+    submit_within_minutes: null
+    platforms: ["YouTube Shorts", "TikTok", "Instagram Reels"]
+
+  # ---------------------------------------------------------------
+  - id: asianjeff
+    active: true
+    name: "AsianJeff"
+    twitch: asianjeff
+    submit_url: "https://contentrewards.com/c/campaigns/bbd3a963-9a23-457c-bc15-6697971d9902"
+    rules_url: "https://reachclipping.com/AsianJeff"
+    payout: "1.000 izlenme = 1$, her klip en az 10.000 izlenme olmalı, en fazla 300$"
+    start_date: "2026-11-19"   # KURAL: 19 Kasım öncesi yayınlar sayılmaz
+    end_date: "2026-11-26"     # kampanya 26 Kasım'da bitiyor
+    must_mention_name: "AsianJeff"
+    hashtags: ["#AsianJeff", "#GTA6"]
+    caption_text: ""
+    logo_overlay: null         # KURAL: hiçbir logo olmayacak
+    allow_logos: false
+    forbid_links: false
+    submit_within_minutes: 30
+    platforms: ["YouTube Shorts", "TikTok", "Instagram Reels", "X"]
