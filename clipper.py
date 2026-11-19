@@ -140,13 +140,47 @@ def run(cmd, cwd=None, timeout=900):
     return r.stdout
 
 
+def hls_segments(playlist_url, start, length):
+    """Twitch yayın listesinden sadece [start, start+length] aralığını kapsayan parçaları seçer."""
+    import requests
+    from urllib.parse import urljoin
+    text = requests.get(playlist_url, timeout=30).text
+    if "#EXT-X-STREAM-INF" in text:                       # ana liste -> ilk (en iyi) kalite
+        lines = text.splitlines()
+        i = next(k for k, l in enumerate(lines) if l.startswith("#EXT-X-STREAM-INF"))
+        playlist_url = urljoin(playlist_url, lines[i + 1].strip())
+        text = requests.get(playlist_url, timeout=30).text
+    segs, t, dur = [], 0.0, None
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith("#EXTINF:"):
+            dur = float(line[8:].split(",")[0])
+        elif line and not line.startswith("#") and dur is not None:
+            if t + dur > start and t < start + length:
+                segs.append((t, urljoin(playlist_url, line)))
+            t += dur
+            dur = None
+    if not segs:
+        raise RuntimeError(f"bu zaman aralığı yayında yok (yayın {t:.0f} sn)")
+    return segs
+
+
 def download_section(vod_id, start, length, dest):
-    """Yayının tamamını değil, sadece o parçayı indirir (doğrudan HLS adresinden kesim)."""
+    """Yayının tamamını değil, sadece o parçayı indirir: ilgili .ts parçaları + yerel kesim."""
+    import requests
     out = run(["yt-dlp", "--no-warnings", "-g", "-f", "best[height<=1080]/best",
                f"https://www.twitch.tv/videos/{vod_id}"], timeout=120)
-    hls = out.strip().splitlines()[0]
-    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-i", hls,
+    segs = hls_segments(out.strip().splitlines()[0], start, length)
+    ts = Path(dest).with_suffix(".ts")
+    with open(ts, "wb") as f:
+        for _, url in segs:
+            r = requests.get(url, timeout=60)
+            r.raise_for_status()
+            f.write(r.content)
+    offset = max(0.0, start - segs[0][0])
+    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{offset:.2f}", "-i", str(ts),
          "-t", str(length), "-c", "copy", "-bsf:a", "aac_adtstoasc", str(dest)], timeout=300)
+    ts.unlink(missing_ok=True)
     if not Path(dest).exists() or Path(dest).stat().st_size < 100_000:
         raise RuntimeError("parça indirilemedi")
 
