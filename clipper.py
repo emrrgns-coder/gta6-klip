@@ -132,23 +132,22 @@ def moments_from_clips(camp, d, vods):
 
 
 # ================================================================ Video
-def run(cmd, cwd=None):
-    r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd)
+def run(cmd, cwd=None, timeout=900):
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, timeout=timeout)
     if r.returncode != 0:
         raise RuntimeError((r.stderr or r.stdout)[-1500:])
     return r.stdout
 
 
 def download_section(vod_id, start, length, dest):
-    """Yayının tamamını değil, sadece o parçayı indirir."""
-    url = f"https://www.twitch.tv/videos/{vod_id}"
-    run(["yt-dlp", "-q", "--no-warnings", "-f", "best[height<=1080]/best",
-         "--download-sections", f"*{start}-{start + length}",
-         "--force-keyframes-at-cuts", "-o", str(dest), "--remux-video", "mp4", url])
-    if not Path(dest).exists():
-        alt = list(Path(dest).parent.glob(Path(dest).stem + ".*"))
-        if alt:
-            alt[0].rename(dest)
+    """Yayının tamamını değil, sadece o parçayı indirir (doğrudan HLS adresinden kesim)."""
+    out = run(["yt-dlp", "-q", "--no-warnings", "-g", "-f", "best[height<=1080]/best",
+               f"https://www.twitch.tv/videos/{vod_id}"], timeout=120)
+    hls = out.strip().splitlines()[0]
+    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-i", hls,
+         "-t", str(length), "-c", "copy", "-bsf:a", "aac_adtstoasc", str(dest)], timeout=300)
+    if not Path(dest).exists() or Path(dest).stat().st_size < 100_000:
+        raise RuntimeError("parça indirilemedi")
 
 
 _WHISPER = None
@@ -311,8 +310,11 @@ def load_state():
 
 def make_clip(camp, d, m):
     raw = TMP / f"{m['key']}_raw.mp4"
+    log(f"   indiriliyor: yayın {m['vod']} @ {m['start']}s ({m['length']}s)")
     download_section(m["vod"], m["start"], m["length"], raw)
+    log("   altyazı çıkarılıyor")
     words = transcribe(raw, d["whisper_model"], d["language"])
+    log(f"   {len(words)} kelime, video hazırlanıyor")
     hook = hook_text(m, words, camp)
     m["hook"] = hook
     yt_title, caption = build_texts(camp, hook)
