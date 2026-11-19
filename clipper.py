@@ -135,13 +135,14 @@ def moments_from_clips(camp, d, vods):
 def run(cmd, cwd=None, timeout=900):
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd, timeout=timeout)
     if r.returncode != 0:
-        raise RuntimeError((r.stderr or r.stdout)[-1500:])
+        raise RuntimeError(f"{Path(cmd[0]).name} çıkış kodu {r.returncode}: "
+                           + (r.stderr or r.stdout or "")[-1500:])
     return r.stdout
 
 
 def download_section(vod_id, start, length, dest):
     """Yayının tamamını değil, sadece o parçayı indirir (doğrudan HLS adresinden kesim)."""
-    out = run(["yt-dlp", "-q", "--no-warnings", "-g", "-f", "best[height<=1080]/best",
+    out = run(["yt-dlp", "--no-warnings", "-g", "-f", "best[height<=1080]/best",
                f"https://www.twitch.tv/videos/{vod_id}"], timeout=120)
     hls = out.strip().splitlines()[0]
     run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-i", hls,
@@ -390,7 +391,7 @@ def main():
                 log(f"   ✓ {yt_title}")
                 total += 1
             except Exception as e:
-                log(f"   ✗ {m['key']}: {e}")
+                log(f"   ✗ {m['key']}: {type(e).__name__}: {e}")
                 if "KURAL HATASI" not in str(e):
                     continue                  # geçici hata: sonraki turda tekrar dene
             done.add(m["key"])
