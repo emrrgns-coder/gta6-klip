@@ -150,10 +150,14 @@ def hls_segments(playlist_url, start, length):
         i = next(k for k, l in enumerate(lines) if l.startswith("#EXT-X-STREAM-INF"))
         playlist_url = urljoin(playlist_url, lines[i + 1].strip())
         text = requests.get(playlist_url, timeout=30).text
-    segs, t, dur = [], 0.0, None
+    segs, t, dur, init = [], 0.0, None, None
     for line in text.splitlines():
         line = line.strip()
-        if line.startswith("#EXTINF:"):
+        if line.startswith("#EXT-X-MAP:"):                  # fMP4 yayınlarda başlangıç dosyası
+            m = re.search(r'URI="([^"]+)"', line)
+            if m:
+                init = urljoin(playlist_url, m.group(1))
+        elif line.startswith("#EXTINF:"):
             dur = float(line[8:].split(",")[0])
         elif line and not line.startswith("#") and dur is not None:
             if t + dur > start and t < start + length:
@@ -162,7 +166,7 @@ def hls_segments(playlist_url, start, length):
             dur = None
     if not segs:
         raise RuntimeError(f"bu zaman aralığı yayında yok (yayın {t:.0f} sn)")
-    return segs
+    return segs, init
 
 
 def download_section(vod_id, start, length, dest):
@@ -170,10 +174,10 @@ def download_section(vod_id, start, length, dest):
     import requests
     out = run(["yt-dlp", "--no-warnings", "-g", "-f", "best[height<=1080]/best",
                f"https://www.twitch.tv/videos/{vod_id}"], timeout=120)
-    segs = hls_segments(out.strip().splitlines()[0], start, length)
-    ts = Path(dest).with_suffix(".ts")
+    segs, init = hls_segments(out.strip().splitlines()[0], start, length)
+    ts = Path(dest).with_suffix(".part")
     with open(ts, "wb") as f:
-        for _, url in segs:
+        for url in ([init] if init else []) + [u for _, u in segs]:
             r = requests.get(url, timeout=60)
             r.raise_for_status()
             f.write(r.content)
