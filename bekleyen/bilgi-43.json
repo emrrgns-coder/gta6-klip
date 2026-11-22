@@ -1,0 +1,79 @@
+[
+ {
+  "file": "yourrage_2933174196_6016.mp4",
+  "campaign": "yourrage",
+  "name": "YourRAGE",
+  "youtube_title": "YourRAGE plays GTA 6 #yourrage #GTA6",
+  "caption": "YourRAGE plays GTA 6 #yourrage #GTA6",
+  "submit_url": "https://contentrewards.com/c/campaigns/be9b123e-ea47-4305-b6c5-af81f503b247",
+  "submit_within_minutes": 30,
+  "payout": "Havuz 5.000$ - tüm kliplerin toplamı 500.000 izlenmeyi geçmeli",
+  "hook": "YourRAGE plays GTA 6"
+ },
+ {
+  "file": "kreekcraft_2936183180_24767.mp4",
+  "campaign": "kreekcraft",
+  "name": "KreekCraft",
+  "youtube_title": "KreekCraft - It's been a long time #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "caption": "KreekCraft - It's been a long time Watch KreekCraft on YouTube and Twitch! #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "submit_url": "https://contentrewards.com/c/campaigns/2eaa14fb-6927-4136-897e-b096e0d907d6",
+  "submit_within_minutes": null,
+  "payout": "1.000 izlenme = 1$, klip başı en az 3$ en fazla 300$",
+  "hook": "It's been a long time"
+ },
+ {
+  "file": "kreekcraft_2936183180_3847.mp4",
+  "campaign": "kreekcraft",
+  "name": "KreekCraft",
+  "youtube_title": "KreekCraft - Bad driver kreek #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "caption": "KreekCraft - Bad driver kreek Watch KreekCraft on YouTube and Twitch! #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "submit_url": "https://contentrewards.com/c/campaigns/2eaa14fb-6927-4136-897e-b096e0d907d6",
+  "submit_within_minutes": null,
+  "payout": "1.000 izlenme = 1$, klip başı en az 3$ en fazla 300$",
+  "hook": "Bad driver kreek"
+ },
+ {
+  "file": "kreekcraft_2936183180_6168.mp4",
+  "campaign": "kreekcraft",
+  "name": "KreekCraft",
+  "youtube_title": "KreekCraft - Dana White sign her up for the UFC right now 😭 #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "caption": "KreekCraft - Dana White sign her up for the UFC right now 😭 Watch KreekCraft on YouTube and Twitch! #GTA6 #KreekCraft #GrandTheftAutoVI",
+  "submit_url": "https://contentrewards.com/c/campaigns/2eaa14fb-6927-4136-897e-b096e0d907d6",
+  "submit_within_minutes": null,
+  "payout": "1.000 izlenme = 1$, klip başı en az 3$ en fazla 300$",
+  "hook": "Dana White sign her up for the UFC right now 😭"
+ },
+ {
+  "file": "asianjeff_2934513082_18004.mp4",
+  "campaign": "asianjeff",
+  "name": "AsianJeff",
+  "youtube_title": "AsianJeff - Locked in jeff #AsianJeff #GTA6",
+  "caption": "AsianJeff - Locked in jeff #AsianJeff #GTA6",
+  "submit_url": "https://contentrewards.com/c/campaigns/bbd3a963-9a23-457c-bc15-6697971d9902",
+  "submit_within_minutes": 30,
+  "payout": "1.000 izlenme = 1$, her klip en az 10.000 izlenme olmalı, en fazla 300$",
+  "hook": "Locked in jeff"
+ },
+ {
+  "file": "asianjeff_2934513082_10931.mp4",
+  "campaign": "asianjeff",
+  "name": "AsianJeff",
+  "youtube_title": "AsianJeff - took on 3 cops #AsianJeff #GTA6",
+  "caption": "AsianJeff - took on 3 cops #AsianJeff #GTA6",
+  "submit_url": "https://contentrewards.com/c/campaigns/bbd3a963-9a23-457c-bc15-6697971d9902",
+  "submit_within_minutes": 30,
+  "payout": "1.000 izlenme = 1$, her klip en az 10.000 izlenme olmalı, en fazla 300$",
+  "hook": "took on 3 cops"
+ },
+ {
+  "file": "asianjeff_2933231152_656.mp4",
+  "campaign": "asianjeff",
+  "name": "AsianJeff",
+  "youtube_title": "AsianJeff: \"Turn the fan off? Hello? Can you hear the\" #AsianJeff #GTA6",
+  "caption": "AsianJeff: \"Turn the fan off? Hello? Can you hear the\" #AsianJeff #GTA6",
+  "submit_url": "https://contentrewards.com/c/campaigns/bbd3a963-9a23-457c-bc15-6697971d9902",
+  "submit_within_minutes": 30,
+  "payout": "1.000 izlenme = 1$, her klip en az 10.000 izlenme olmalı, en fazla 300$",
+  "hook": "AsianJeff: \"Turn the fan off? Hello? Can you hear the\""
+ }
+]
